@@ -1,0 +1,64 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block title %}
+<title>BitPass | Delete Account</title>
+{% endblock %}
+
+{% block content %}
+
+<div 
+    class="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center"
+>
+    <div class="bg-snow p-8 mx-5 rounded-lg shadow-lg sm:w-1/2 lg:w-1/3">
+        <!-- HEADING -->
+        <h3 class="text-lg text-dark-violet font-medium">
+            {% if page == 'delete-categories' %}
+                Delete {{ category.category_name }} category?
+            {% else %}
+                Delete your account from BitPass?
+            {% endif %}
+        </h3>
+
+        <!-- PARAGRAPH -->
+        <p class="text-gray text-sm">
+            {% if page == 'delete-categories' %}
+                Are you sure you want to delete? Every account password belonging to the category will be deleted. It's not recoverable.
+            {% else %}
+                Are you sure you want to delete your account? It's not recoverable.
+            {% endif %}
+        </p>
+
+        <!-- DELETE FORM -->
+        {% if page == 'delete-categories' %}
+            <form action="" method="POST" class="mt-8">
+        {% else %}
+            <form action="{% url 'delete-account' %}" method="POST" class="mt-8">
+        {% endif %}
+
+                {% csrf_token %}
+                
+                <!--FORM BUTTONS -->
+                <div class="flex items-center justify-start gap-4 mt-6">
+                    <!-- CANCEL BUTTON -->
+                    <button
+                    class="cancel-delete border border-solid border-gray rounded-md px-5 py-2 bg-transparent text-base text-dark-violet font-inter hover:cursor-pointer hover:scale-110 transition-transform"
+                    >
+                    Cancel
+                    </button>
+
+                    <!-- DELETE BUTTON -->
+                    <input
+                    type="submit"
+                    value="Delete"
+                    class="bg-light-violet border-none rounded-md px-6 py-2 text-base text-snow hover:cursor-pointer hover:scale-110 transition-transform"
+                    />
+                </div>
+            </form>
+    </div>
+
+    <div class="previous-url hidden">{{ previous_url }}</div>
+</div>
+
+{% endblock %}

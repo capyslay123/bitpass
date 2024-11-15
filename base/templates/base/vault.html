@@ -1,0 +1,328 @@
+{% extends 'main.html' %} {% load static %} {% block title %}
+<title>BitPass | Vault</title>
+{% endblock %} {% block content %}
+
+<!-- NAVBAR -->
+<nav
+  class="bg-snow flex justify-between items-center shadow-lg rounded-lg mt-6 p-4 mx-5"
+>
+  <!-- LOGO -->
+  <a href="{% url 'home' %}"
+    ><img
+      src="{% static 'images/logo.svg' %}"
+      alt="Logo"
+      class="w-3/4 sm:w-full"
+  /></a>
+
+  <!-- ADD NEW CATEGORIES BUTTON FOR DESKTOP -->
+  {% include './components/add-category-btn-dsk-component.html' %}
+
+  <!-- FILTER CATEGORIES OPTION FOR DESKTOP -->
+  <div class="hidden lg:block relative">
+    <div
+      class="filter-category flex items-center gap-2 justify-center hover:cursor-pointer"
+    >
+      <span class="text-dark-violet text-sm">Filter by Categories</span>
+      <img
+        src="{% static 'images/icons/chevron-ic.svg' %}"
+        alt="Chevron Icon"
+        class="category-chevron transition-transform"
+      />
+    </div>
+
+    <!-- FILTER CATEGORY CONTENT -->
+    <div
+      class="category-content bg-snow shadow-lg rounded-lg px-4 pt-4 pb-8 w-40 absolute z-10 top-16 left-0 hidden"
+    >
+    {% if categories %}
+    <a href="{% url 'vault' %}" class="category-content-item">All</a>
+      {% for category in categories %}
+      <div class="flex items-center justify-between pt-3 first:pt-0">
+        <!-- CATEGORY CONTENT ITEMS -->
+        <a href="/vault/?q={{ category }}" class="category-content-item">{{ category }}</a>
+        <!-- CATEGORY DELETE  -->
+        <a href="{% url 'delete-categories' category.id %}">
+          <img src="{% static 'images/icons/delete-ic.svg' %}" alt="Delete" />
+        </a>
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="text-dark-violet text-sm text-center">
+        No categories found
+      </div>
+    {% endif %}
+    </div>
+  </div>
+
+  <!-- SEARCH BAR FORM FOR DESKTOP -->
+  <form action="{% url 'vault' %}" method="GET" class="hidden md:block">
+    <div
+      class="relative border border-solid border-dark-violet px-3 py-2 rounded-lg"
+    >
+      <!-- SEARCH ICON -->
+      <img
+        src="{% static 'images/icons/search-ic.svg' %}"
+        alt="Search Icon"
+        class="search-icon absolute"
+      />
+      <!-- SEARCH INPUT -->
+      <input
+        type="text"
+        name="q"
+        placeholder="Search..."
+        class="bg-transparent text-sm font-inter text-dark-violet placeholder:text-gray placeholder:font-medium focus:outline-none ml-8"
+      />
+    </div>
+  </form>
+
+  <!-- USER DROP DOWN MENU -->
+  {% include './components/user-menu-component.html' %}
+</nav>
+
+<!-- SEARCH BAR FORM FOR MOBILE-->
+<form action="{% url 'vault' %}" method="GET" class="mt-6 md:hidden">
+  <div
+    class="relative border border-solid border-dark-violet px-4 py-3 rounded-lg mx-8"
+  >
+    <!-- SEARCH ICON -->
+    <img
+      src="{% static 'images/icons/search-ic.svg' %}"
+      alt="Search Icon"
+      class="search-icon absolute"
+    />
+    <!-- SEARCH INPUT -->
+    <input
+      type="text"
+      name="q"
+      placeholder="Search..."
+      class="bg-transparent font-inter text-dark-violet placeholder:text-gray placeholder:font-medium focus:outline-none ml-8"
+    />
+  </div>
+</form>
+
+<!-- FILTER CATEGORIES OPTION FOR MOBILE -->
+<div class="mt-4 lg:hidden relative">
+  <div
+    class="filter-category-mobile flex items-center gap-2 justify-center hover:cursor-pointer"
+  >
+    <span class="text-dark-violet text-base">Filter by Categories</span>
+    <img
+      src="{% static 'images/icons/chevron-ic.svg' %}"
+      alt="Chevron Icon"
+      class="category-chevron-mobile transition-transform"
+    />
+  </div>
+
+  <!-- FILTER CATEGORY CONTENT -->
+  <div
+    class="category-content-mobile bg-snow shadow-lg rounded-lg px-4 pt-4 pb-8 w-40 absolute z-10 top-10 left-1/2 -translate-x-1/2 hidden"
+  >
+    {% if categories %}
+    <a href="{% url 'vault' %}" class="category-content-item">All</a>
+      {% for category in categories %}
+      <div class="flex items-center justify-between pt-3 first:pt-0">
+        <!-- CATEGORY CONTENT ITEMS -->
+        <a href="/vault/?q={{ category }}" class="category-content-item">{{ category }}</a>
+        <!-- CATEGORY DELETE  -->
+        <a href="{% url 'delete-categories' category.id %}">
+          <img src="{% static 'images/icons/delete-ic.svg' %}" alt="Delete" />
+        </a>
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="text-dark-violet text-sm text-center">
+        No categories found
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- ADD NEW CATEGORIES BUTTON FOR MOBILE -->
+{% include './components/add-category-btn-mb-component.html' %}
+
+<!-- MAIN CONTENT -->
+<main class="mt-10">
+  <!-- HEADING -->
+  <h1
+    class="text-dark-violet text-xl font-semibold mx-5 sm:text-2xl lg:text-4xl"
+  >
+    Password Vault
+  </h1>
+
+  <!-- ACCOUNT PASSWORD CONTAINER -->
+  <div
+    class="my-12 flex flex-col justify-center items-center gap-6 sm:flex-row sm:flex-wrap"
+  >
+  {% if account_passwords %}
+  <!-- PASSWORD CARD -->
+    {% for account_password in account_passwords %}
+      <div class="bg-snow px-8 pt-6 pb-12 mx-8 rounded-lg shadow-lg relative">
+        <!-- ACCOUNT PASSWORD ID (FOR SENDING THE ID TO THE DELETE FORM THROUGH JS) -->
+        <div class="account-password-id" style="opacity: 0;">{{ account_password.id }}</div>
+        <!-- ACCOUNT ICON -->
+        <div>
+          {% if account_password.url %}
+          <img
+            src="https://logo.clearbit.com/{{ account_password.url }}"
+            alt="Account Logo"
+            class="w-20 mx-auto rounded-lg"
+          />
+          {% else %}
+          <div class="account-logo-acronym bg-snow p-4 rounded-lg shadow-lg text-light-violet text-5xl w-fit mx-auto">
+            {{ account_password.acronym }}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- ACCOUNT NAME -->
+        <div class="text-dark-violet text-base text-center mt-3">{{ account_password.title }}</div>
+
+        {% if account_password.username %}
+        <!-- ACCOUNT USERNAME -->
+        <div class="flex items-center gap-2 mt-6">
+          <span class="text-light-violet text-base account-username"
+            >{{ account_password.username }}</span
+          >
+          <div class="copy-ic-container">
+            <img
+              src="{% static 'images/icons/copy-ic.svg' %}"
+              alt="Copy"
+              class="account-username-copy copy-ic copy-ic-username"
+            />
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- ACCOUNT EMAIL -->
+        <div class="flex items-center gap-2 mt-1">
+          <span class="text-light-violet text-base account-email"
+            >{{ account_password.email }}</span
+          >
+          <div class="copy-ic-container">
+            <img
+              src="{% static 'images/icons/copy-ic.svg' %}"
+              alt="Copy"
+              class="account-email-copy copy-ic copy-ic-email"
+            />
+          </div>
+        </div>
+
+        <!-- ACCOUNT PASSWORD -->
+        <div class="flex items-center gap-2 mt-2">
+          <span class="account-password-bullet flex items-center gap-1">
+            <div class="bullet-password"></div>
+            <div class="bullet-password"></div>
+            <div class="bullet-password"></div>
+            <div class="bullet-password"></div>
+            <div class="bullet-password"></div>
+            <div class="bullet-password"></div>
+            <div class="bullet-password"></div>
+            <div class="bullet-password"></div>
+          </span>
+          <div class="account-password text-light-violet text-base hidden">
+          {{ account_password.password }}
+          </div>
+          <!-- SHOW PASSWORD ICON -->
+          <img
+            src="{% static 'images/icons/invisible-ic.svg' %}"
+            alt="Show Password"
+            class="show-account-password hover:cursor-pointer"
+          />
+          <!-- HIDE PASSWORD ICON -->
+          <img
+            src="{% static 'images/icons/visible-ic.svg' %}"
+            alt="Hide Password"
+            class="hide-account-password hover:cursor-pointer hidden"
+          />
+          <!-- COPY ICON -->
+          <div class="copy-ic-container">
+            <img
+              src="{% static 'images/icons/copy-ic.svg' %}"
+              alt="Copy"
+              class="account-password-copy copy-ic copy-ic-password"
+            />
+          </div>
+        </div>
+
+        <!-- EDIT PASSWORD ICON -->
+        <a href="{% url 'edit-password' account_password.id %}" class="edit-password-ic absolute">
+          <img
+            src="{% static 'images/icons/edit-ic.svg' %}"
+            alt="Edit Icon"
+            class="w-3/4"
+          />
+        </a>
+
+        <!-- DELETE PASSWORD ICON -->
+        <div class="delete-password-ic absolute hover:cursor-pointer">
+          <img
+            src="{% static 'images/icons/delete-ic.svg' %}"
+            alt="Delete Icon"
+          />
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div
+      class="text-xl text-center text-dark-violet/30 absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2 md:top-1/2"
+    >
+      No password found
+    </div>
+  {% endif %}
+  </div>
+</main>
+
+<!-- ADD NEW PASSWORD BUTTON -->
+<div
+  class="bg-light-violet w-fit p-3 rounded-full new-password-btn hover:cursor-pointer hover:scale-110 transition-transform"
+>
+  <a href="{% url 'add-password' %}">
+    <img src="{% static 'images/icons/plus-ic.svg' %}" alt="Add New Password" />
+  </a>
+</div>
+
+<!-- ADD CATEGORIES MODAL -->
+{% include './components/add-category-modal-component.html' %}
+
+<!-- DELETE MODAL -->
+<div
+  class="delete-modal bg-black/10 fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center transition-opacity -z-10 opacity-0"
+>
+  <div class="bg-snow p-8 rounded-lg shadow-lg sm:w-1/2 lg:w-1/3">
+    <!-- MODAL HEADING -->
+    <h3 class="text-lg text-dark-violet font-medium">
+      Delete Password Info?
+    </h3>
+
+    <!-- MODAL PARAGRAPH -->
+    <p class="text-gray text-sm">
+      Are you sure you want to delete? It's not recoverable.
+    </p>
+
+    <!-- DELETE FORM -->
+    <form action="" method='post' class="mt-8 delete-modal-form">
+      {% csrf_token %}
+      <!-- MODAL BUTTONS -->
+      <div class="flex items-center justify-start gap-4 mt-6">
+        <!-- CANCEL BUTTON -->
+        <button
+          class="close-modal-delete border border-solid border-gray rounded-md px-5 py-2 bg-transparent text-base text-dark-violet font-inter hover:cursor-pointer hover:scale-110 transition-transform"
+        >
+          Cancel
+        </button>
+
+        <!-- DELETE BUTTON -->
+        <input
+          type="submit"
+          value="Delete"
+          class="bg-light-violet border-none rounded-md px-6 py-2 text-base text-snow hover:cursor-pointer hover:scale-110 transition-transform"
+        />
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- TOAST FOR SUCCESS OR ERROR MESSAGE -->
+{% include './components/toast-component.html' %}
+
+{% endblock %}

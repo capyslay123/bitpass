@@ -1,0 +1,146 @@
+{% extends 'main.html' %} {% load static %} {% block title %}
+<title>BitPass | Sign Up</title>
+{% endblock %} {% block content %}
+
+<!-- FLEX CONTAINER -->
+<div class="lg:flex lg:justify-between lg:items-start">
+  <!-- MAIN CONTENT -->
+  <main class="mx-8 xl:ml-24 xl:basis-1/3 xl:mt-16">
+    <!-- LOGO -->
+    <div class="mt-24 xl:mt-10">
+      <img src="{% static 'images/logo.svg' %}" alt="Logo" />
+    </div>
+
+    <!-- HEADING -->
+    <h1 class="text-dark-violet text-2xl font-bold mt-5 xl:text-4xl">
+      Create a new Account
+    </h1>
+
+    <!-- SUB HEADING -->
+    <p class="text-gray text-sm mt-1 xl:mt-4">
+      Forget about forgetting your password
+    </p>
+
+    <!-- SIGN UP FORM -->
+    <form action="{% url 'sign-up' %}" method="POST" class="mt-4 xl:mt-6">
+      {% csrf_token %}
+
+      <!-- NAME FIELD -->
+      <div class="relative w-full">
+        <img
+          src="{% static 'images/icons/user-ic.svg' %}"
+          alt="User Icon"
+          class="user-icon"
+        />
+        <input
+          type="text"
+          name="name"
+          placeholder="Full Name"
+          class="sign-up-form-input"
+          required
+        />
+      </div>
+
+      <!-- USERNAME FIELD -->
+      <div class="relative w-full">
+        <img
+          src="{% static 'images/icons/user-ic.svg' %}"
+          alt="User Icon"
+          class="user-icon"
+        />
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          class="sign-up-form-input"
+          required
+        />
+      </div>
+
+      <!-- PASSWORD FIELD -->
+      <div class="relative w-ful">
+        <img
+          src="{% static 'images/icons/password-ic.svg' %}"
+          alt="Password Icon"
+          class="password-icon"
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          class="sign-up-form-input"
+          required
+        />
+        <img
+          src="{% static 'images/icons/eye-invisible-ic.svg' %}"
+          alt="Show Password"
+          class="show-password-ic password-toggle hover:cursor-pointer"
+        />
+        <img
+          src="{% static 'images/icons/eye-visible-ic.svg' %}"
+          alt="Hide Password"
+          class="hide-password-ic hidden password-toggle hover:cursor-pointer"
+        />
+      </div>
+
+      <!-- PASSWORD RETYPE FIELD -->
+      <div class="relative w-full">
+        <img
+          src="{% static 'images/icons/password-ic.svg' %}"
+          alt="Password Icon"
+          class="password-icon"
+        />
+        <input
+          type="password"
+          name="confirm-password"
+          placeholder="Retype Password"
+          class="sign-up-form-input"
+          required
+        />
+        <img
+          src="{% static 'images/icons/eye-invisible-ic.svg' %}"
+          alt="Show Password"
+          class="show-password-ic password-toggle hover:cursor-pointer"
+        />
+        <img
+          src="{% static 'images/icons/eye-visible-ic.svg' %}"
+          alt="Hide Password"
+          class="hide-password-ic hidden password-toggle hover:cursor-pointer"
+        />
+      </div>
+
+      <!-- LOGIN PAGE LINK -->
+      <div class="text-gray text-sm font-normal text-right mt-3">
+        Already Signed Up?
+        <a href="{% url 'login' %}" class="text-light-violet font-bold"
+          >Login</a
+        >
+      </div>
+
+      <!-- ERROR MESSAGE -->
+      <div class="text-red-500 text-sm font-medium mt-8 lg:mt-0">
+        {{ error_message }}
+      </div>
+
+      <!-- SUBMIT BUTTON -->
+      <input
+        type="submit"
+        value="Sign Up"
+        class="bg-light-violet text-snow w-full text-center py-3 rounded-lg mt-10 hover:cursor-pointer hover:scale-110 transition-transform mb-10"
+      />
+    </form>
+  </main>
+
+  <!-- RIGHT SECTION -->
+  <div
+    class="hidden lg:flex bg-light-violet min-h-screen flex-col items-center justify-center xl:basis-1/2"
+  >
+    <img
+      src="{% static 'images/prop-illustration.svg' %}"
+      alt="Prop Ilustration"
+      class="w-2/3"
+    />
+  </div>
+</div>
+
+{% endblock %}

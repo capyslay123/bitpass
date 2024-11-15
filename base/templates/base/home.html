@@ -1,0 +1,126 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+
+<div class="container mx-auto">
+  <!-- NAVBAR -->
+  <nav
+    class="bg-snow flex justify-between items-center p-4 shadow-lg mx-5 my-6 rounded-lg relative"
+  >
+    <!-- LOGO -->
+    <a href="{% url 'home' %}"
+      ><img
+        src="{% static 'images/logo.svg' %}"
+        alt="Logo"
+        class="w-3/4 sm:w-full"
+    /></a>
+
+    <!-- HAMBURGER ICON -->
+    <img
+      src="{% static 'images/icons/hamburger-ic.svg' %}"
+      alt="Options"
+      class="md:hidden hamburger-ic"
+    />
+
+    <!-- CLOSE ICON -->
+    <img
+      src="{% static 'images/icons/close-ic.svg' %}"
+      alt="Close"
+      class="md:hidden hidden close-ic"
+    />
+
+    <!-- MOBILE NAV CONTENT -->
+    <div
+      class="nav-content-mobile absolute bg-snow shadow-lg rounded-lg w-full h-0 top-20 left-0 z-10 flex-col items-center justify-center flex md:hidden transition-all"
+    >
+      <a
+        href="{% url 'vault' %}"
+        class="bg-light-violet px-6 py-4 rounded-md text-snow text-sm hidden nav-link-mobile"
+        >Access Dashboard / Vault</a
+      >
+    </div>
+
+    <!-- NAV ITEM -->
+    {% include './components/nav-item-component.html' %}
+
+    {% if request.user.is_authenticated %}
+    <!-- USER DROP DOWN MENU -->
+    {% include './components/user-menu-component.html' %} {% else %}
+    <!-- NAV CTA -->
+    <div class="hidden md:flex items-center justify-start gap-4">
+      <!-- SECONDARY -->
+      <a
+        href="{% url 'login' %}"
+        class="rounded-lg text-dark-violet text-xs border border-solid border-gray px-6 py-2 hover:scale-110 transition-transform"
+        >Login</a
+      >
+
+      <!-- PRIMARY -->
+      <a
+        href="{% url 'sign-up' %}"
+        class="flex items-center justify-start bg-light-violet text-snow text-xs rounded-lg pl-3 pr-1 py-1 hover:scale-110 transition-transform"
+      >
+        Sign Up
+        <img src="{% static 'images/icons/arrow-ic.svg' %}" alt="Arrow" />
+      </a>
+    </div>
+    {% endif %}
+  </nav>
+
+  <!-- MAIN CONTENT / HERO SECTION -->
+  <main class="mt-14">
+    <!-- HERO ILLUSTRATION FOR MOBILES -->
+    <div class="w-full flex flex-col items-center lg:hidden">
+      <img
+        src="{% static 'images/mobile-illustration.svg' %}"
+        alt="Illustration"
+        class="w-3/4 shadow-lg rounded-lg md:w-1/2"
+      />
+    </div>
+
+    <!-- TEXT CONTENT -->
+    <div class="text-center mt-10 md:mt-16 lg:mt-20">
+      <!-- HEADING -->
+      <h1
+        class="text-dark-violet font-bold text-2xl md:text-5xl md:font-medium lg:text-7xl lg:leading-tight"
+      >
+        Your Password Has Never <br />
+        Been More Secure.
+      </h1>
+
+      <!-- SUB HEADING -->
+      <p
+        class="text-gray text-sm mt-4 mx-5 md:text-base md:mt-6 md:mx-24 lg:text-xl lg:w-1/2 lg:mx-auto"
+      >
+        Save all your password in the secure vault, never forget your password
+        ever. Access from anywhere everywhere.
+      </p>
+
+      <!-- HERO CTA -->
+      <div
+        class="flex flex-col justify-start items-center gap-4 mt-4 mb-20 md:mt-10 lg:mb-12"
+      >
+        <!-- PRIMARY -->
+        <a
+          href="{% url 'sign-up' %}"
+          class="bg-light-violet rounded-lg text-snow py-3 px-4 md:text-base md:px-8 hover:scale-110 transition-transform"
+          >Secure Now</a
+        >
+        <!-- SECONDARY - ONLY FOR MOBILE -->
+        <a
+          href="{% url 'login' %}"
+          class="rounded-lg text-dark-violet border border-solid border-gray py-3 px-9 md:hidden"
+          >Login</a
+        >
+      </div>
+    </div>
+
+    <!-- HERO ILLUSTRATION FOR DESKTOP -->
+    <div class="hidden w-full lg:flex flex-col items-center mb-20">
+      <img
+        src="{% static 'images/desktop-illustration.svg' %}"
+        alt="Illustration"
+      />
+    </div>
+  </main>
+</div>
+
+{% endblock %}

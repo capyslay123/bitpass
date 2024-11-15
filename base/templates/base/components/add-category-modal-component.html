@@ -1,0 +1,40 @@
+<div
+  class="add-categories-modal bg-black/10 fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center transition-opacity -z-10 opacity-0"
+>
+  <div
+    class="modal-container bg-snow p-8 rounded-lg shadow-lg sm:w-1/2 lg:w-1/3"
+  >
+    <!-- MODAL HEADING -->
+    <h3 class="text-lg text-dark-violet font-medium">Add New Category</h3>
+
+    <!-- CATEGORY FORM -->
+    <form action="{% url 'add-category' %}" method="POST" class="mt-8 category-form">
+      {% csrf_token %}
+
+      <input
+        type="text"
+        name="category"
+        placeholder="Category name..."
+        class="bg-snow shadow-lg rounded-lg text-dark-violet text-base font-inter font-normal placeholder:text-gray px-4 py-3 focus:outline-none w-full"
+        required
+      />
+
+      <!-- MODAL BUTTONS -->
+      <div class="flex items-center justify-start gap-4 mt-6">
+        <!-- CANCEL BUTTON -->
+        <button
+          class="close-modal-categories border border-solid border-gray rounded-md px-5 py-2 bg-transparent text-base text-dark-violet font-inter hover:cursor-pointer hover:scale-110 transition-transform"
+        >
+          Cancel
+        </button>
+
+        <!-- CREATE BUTTON -->
+        <input
+          type="submit"
+          value="Create"
+          class="bg-light-violet modal-submit-categories border-none rounded-md px-6 py-2 text-base text-snow hover:cursor-pointer hover:scale-110 transition-transform"
+        />
+      </div>
+    </form>
+  </div>
+</div>

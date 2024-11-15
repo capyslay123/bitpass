@@ -1,0 +1,47 @@
+{% load static %}
+
+<div
+  class="user-menu flex items-center gap-1 xl:gap-2 relative hover:cursor-pointer"
+>
+  <!-- USER LOGO -->
+  <div class="bg-snow p-2 rounded-full shadow-lg">
+    <img src="{% static 'images/icons/user-ic.svg' %}" alt="User Icon" />
+  </div>
+
+  <!-- USER DETAILS -->
+  <div class="flex flex-col justify-start items-start">
+    <!-- USER NAME -->
+    <span class="text-dark-violet text-[0.625rem] font-medium xl:text-sm"
+      >{{ request.user.name }}</span
+    >
+    <!-- USER'S USERNAME -->
+    <span class="text-dark-violet text-[0.625rem] xl:text-sm"
+      >@{{ request.user.username }}</span
+    >
+  </div>
+
+  <!-- CHEVRON ICON -->
+  <img
+    src="{% static 'images/icons/chevron-ic.svg' %}"
+    alt="Show User Options"
+    class="user-menu-chevron transition-transform"
+  />
+
+  <!-- USER MENU CONTENT -->
+  <div
+    class="user-menu-content bg-snow shadow-lg rounded-lg px-4 pt-4 pb-8 w-44 absolute z-10 top-20 left-0 hidden"
+  >
+    <a href="{% url 'edit-profile' %}">
+      <img src="{% static 'images/icons/edit-ic.svg' %}" alt="Edit" />
+      Edit Profile
+    </a>
+    <a href="{% url 'logout' %}">
+      <img src="{% static 'images/icons/logout-ic.svg' %}" alt="Logout" />
+      Logout
+    </a>
+    <a href="{% url 'delete-account' %}">
+      <img src="{% static 'images/icons/delete-ic.svg' %}" alt="Delete" />
+      Delete Account
+    </a>
+  </div>
+</div>

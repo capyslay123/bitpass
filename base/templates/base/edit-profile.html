@@ -1,0 +1,160 @@
+{% extends 'main.html' %} 
+
+{% load static %} 
+
+{% block title %}
+<title>BitPass | Edit Profile</title>
+{% endblock %} 
+
+{% block content %}
+
+<!-- FLEX CONTAINER -->
+<div class="lg:flex lg:justify-between lg:items-start">
+  <!-- MAIN CONTENT -->
+  <main class="mx-8 xl:ml-24 xl:basis-1/3 xl:mt-20">
+    <!-- LOGO -->
+    <div class="mt-24 xl:mt-10">
+      <img src="{% static 'images/logo.svg' %}" alt="Logo" />
+    </div>
+
+    <!-- HEADING -->
+    <h1 class="text-dark-violet text-2xl font-bold mt-5 xl:text-4xl">
+      Edit Profile
+    </h1>
+
+    <!-- SUB HEADING -->
+    <p class="text-gray text-sm mt-1 xl:mt-4">
+      You can change your personal details here.
+    </p>
+
+    <!-- EDIT PROFILE FORM -->
+    <form action="{% url 'edit-profile' %}" method="POST" class="mt-4 xl:mt-12">
+      {% csrf_token %}
+     <!-- NOTE MESSAGE -->
+      <div
+        class="opacity-40 text-xs font-medium mt-8 lg:mt-2 before:content-['*'] before:text-sm"
+      >
+        Changing password will result in re-login with new password
+      </div>
+
+      <!-- NAME FIELD -->
+      <div class="relative w-full">
+        <img
+          src="{% static 'images/icons/user-ic.svg' %}"
+          alt="User Icon"
+          class="user-icon"   
+        />
+        <input
+          type="text"
+          name="name"
+          value="{{ request.user.name }}"
+          placeholder="Full Name"
+          class="sign-up-form-input"
+        />
+      </div>
+
+      <!-- USERNAME FIELD -->
+      <div class="relative w-full">
+        <img
+          src="{% static 'images/icons/user-ic.svg' %}"
+          alt="User Icon"
+          class="user-icon"
+        />
+        <input
+          type="text"
+          name="username"
+          value="{{ request.user.username }}"
+          placeholder="Username"
+          class="sign-up-form-input"
+        />
+      </div>
+
+      <!-- PASSWORD FIELD -->
+      <div class="relative w-ful">
+        <img
+          src="{% static 'images/icons/password-ic.svg' %}"
+          alt="Password Icon"
+          class="password-icon"
+        />
+        <input
+          type="password"
+          name="new-password"
+          placeholder="Enter New Password"
+          class="sign-up-form-input"
+        />
+        <img
+          src="{% static 'images/icons/eye-invisible-ic.svg' %}"
+          alt="Show Password"
+          class="show-password-ic password-toggle hover:cursor-pointer"
+        />
+        <img
+          src="{% static 'images/icons/eye-visible-ic.svg' %}"
+          alt="Hide Password"
+          class="hide-password-ic hidden password-toggle hover:cursor-pointer"
+        />
+      </div>
+      
+      <!-- PASSWORD FIELD -->
+      <div class="relative w-ful">
+        <img
+          src="{% static 'images/icons/password-ic.svg' %}"
+          alt="Password Icon"
+          class="password-icon"
+        />
+        <input
+          type="password"
+          name="current-password"
+          placeholder="Enter Current Password"
+          class="sign-up-form-input"
+          required
+        />
+        <img
+          src="{% static 'images/icons/eye-invisible-ic.svg' %}"
+          alt="Show Password"
+          class="show-password-ic password-toggle hover:cursor-pointer"
+        />
+        <img
+          src="{% static 'images/icons/eye-visible-ic.svg' %}"
+          alt="Hide Password"
+          class="hide-password-ic hidden password-toggle hover:cursor-pointer"
+        />
+      </div>
+
+      <!-- ERROR MESSAGE -->
+      <div class="text-red-500 text-sm font-medium mt-8 lg:mt-2">
+        {{ error_message }}
+      </div>
+
+      <!-- SUBMIT BUTTON -->
+      <input
+        type="submit"
+        value="Save Changes"
+        class="bg-light-violet text-snow w-full text-center py-3 rounded-lg mt-10 hover:cursor-pointer hover:scale-110 transition-transform"
+      />
+
+      <!-- G0 BACK BUTTON -->
+      <a
+      href="{{ request.META.HTTP_REFERER }}"
+      class="text-dark-violet border border-gray w-full text-center py-3 rounded-lg mt-10 hover:cursor-pointer hover:scale-110 transition-transform mb-10 block"
+      >
+        Go Back
+      </a>
+    </form>
+  </main>
+
+  <!-- RIGHT SECTION -->
+  <div
+    class="hidden lg:flex bg-light-violet min-h-screen flex-col items-center justify-center xl:basis-1/2"
+  >
+    <img
+      src="{% static 'images/edit-profile-illustration.svg' %}"
+      alt="Ilustration"
+      class="w-2/3"
+    />
+  </div>
+</div>
+
+  <!-- ERROR TOAST -->
+  {% include './components/toast-component.html' %}
+
+{% endblock %}

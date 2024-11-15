@@ -1,0 +1,9 @@
+{% if messages %}
+  {% for message in messages %}
+      <div
+          class="toast text-xs bg-gray/15 text-dark-violet p-4 rounded-md fixed left-1/2 bottom-12 z-10 -translate-x-1/2 transition-all text-center sm:text-base"
+      >
+        {{ message }}
+      </div>
+  {% endfor %}
+{% endif %}
